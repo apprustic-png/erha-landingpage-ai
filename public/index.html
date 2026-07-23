@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERHASTORE OFFICIAL | AI Skin Diagnosis & Skincare Expert ERHA</title>
+    <meta name="description" content="Gunakan AI Skin Diagnosis ERHASTORE untuk analisis kondisi kulit berbasis kecerdasan buatan. Dapatkan rekomendasi produk dermatologi ERHA yang tepat sesuai kondisi kulit Anda.">
+    <meta name="keywords" content="ERHASTORE, AI skin analysis, skin diagnosis AI, skincare AI, erha official store, acneact, truwhite, age corrector">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="scanner.css">
+</head>
+<body>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <span><i class="fa-solid fa-robot"></i> BARU! <strong>AI Skin Diagnosis</strong> — Analisis kondisi kulit Anda secara instan dengan kecerdasan buatan Gemini</span>
+            <a href="#ai-scanner" class="top-bar-link">Coba Gratis <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- NAVIGATION HEADER -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="#" class="brand-logo">
+                <div class="logo-badge">ERHA</div>
+                <div class="logo-text">
+                    <span class="brand-name">ERHASTORE</span>
+                    <span class="brand-sub">OFFICIAL STORE</span>
+                </div>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#hero" class="nav-link active">Beranda</a>
+                <a href="#ai-scanner" class="nav-link nav-ai">🤖 AI Skin Scan</a>
+                <a href="#products" class="nav-link">Produk</a>
+                <a href="#testimonials" class="nav-link">Testimoni</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+            </nav>
+            <div class="header-actions">
+                <a href="#ai-scanner" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-brain"></i> Scan Kulit Gratis
+                </a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+        <div class="container hero-grid">
+            <div class="hero-text-content">
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Dermatology Expert ERHA • AI-Powered Skin Analysis</span>
+                </div>
+                <h1 class="hero-title">
+                    Ketahui Kondisi Kulit Anda Secara Presisi dengan <span class="highlight-text">AI Diagnosis</span>
+                </h1>
+                <p class="hero-description">
+                    Teknologi Gemini AI kami menganalisis kondisi kulit Anda dari foto secara real-time, memberikan diagnosis profesional setara dokter dermatologi, dan merekomendasikan produk ERHA yang paling tepat.
+                </p>
+                <div class="hero-features-list">
+                    <div class="hero-feature-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Analisis AI Berbasis Gemini 3.5 Flash dari Google</span>
+                    </div>
+                    <div class="hero-feature-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Deteksi 6 Parameter Kondisi Kulit Secara Akurat</span>
+                    </div>
+                    <div class="hero-feature-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Rekomendasi Produk ERHA Berbasis Data Kulit Anda</span>
+                    </div>
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#ai-scanner" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-brain"></i> Mulai Scan Kulit Gratis
+                    </a>
+                    <a href="#products" class="btn btn-outline btn-lg">
+                        Lihat Katalog Produk
+                    </a>
+                </div>
+                <div class="hero-trust-metrics">
+                    <div class="metric-item">
+                        <span class="metric-num" data-target="500000">0</span>
+                        <span class="metric-label">Pengguna Puas</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-num">24+ Tahun</span>
+                        <span class="metric-label">Riset Dermatologi</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-item">
+                        <span class="metric-rating">
+                            <strong>4.9</strong>
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </span>
+                        <span class="metric-label">Rating Official Store</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="images/hero_banner.png" alt="ERHA AI Skin Diagnosis" class="hero-img">
+                <div class="floating-card float-top">
+                    <div class="float-icon green"><i class="fa-solid fa-brain"></i></div>
+                    <div class="float-info">
+                        <strong>Gemini AI Analysis</strong>
+                        <span>6 Parameter Kondisi Kulit</span>
+                    </div>
+                </div>
+                <div class="floating-card float-bottom">
+                    <div class="float-icon teal"><i class="fa-solid fa-stethoscope"></i></div>
+                    <div class="float-info">
+                        <strong>Dermatologist Level</strong>
+                        <span>Akurasi Diagnosis Tinggi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================
+         AI SKIN SCANNER SECTION
+         =================================================================== -->
+    <section class="ai-scanner-section" id="ai-scanner">
+        <div class="scanner-bg-glow"></div>
+        <div class="container">
+
+            <!-- Section Header -->
+            <div class="section-header text-center">
+                <span class="section-subtitle ai-badge-label"><i class="fa-solid fa-robot"></i> Powered by Gemini 3.5 Flash</span>
+                <h2 class="section-title">AI Skin Diagnosis — Analisis Kulit Anda Sekarang</h2>
+                <p class="section-desc">Upload foto selfie atau aktifkan kamera. AI kami akan menganalisis kondisi kulit Anda dalam hitungan detik.</p>
+            </div>
+
+            <!-- SCANNER APP WRAPPER -->
+            <div class="scanner-app-wrapper" id="scannerApp">
+
+                <!-- =================== STATE 1: INPUT PANEL =================== -->
+                <div class="scanner-state active" id="stateInput">
+                    <div class="scanner-input-grid">
+
+                        <!-- Camera/Upload Area -->
+                        <div class="input-media-area">
+                            <div class="media-preview-box" id="mediaPreviewBox">
+                                <!-- CAMERA FEED -->
+                                <video id="cameraFeed" autoplay muted playsinline class="hidden"></video>
+                                <!-- CANVAS for scan animation overlay -->
+                                <canvas id="scanCanvas" class="hidden"></canvas>
+                                <!-- IMAGE PREVIEW -->
+                                <img id="imagePreview" alt="Preview foto Anda" class="hidden">
+
+                                <!-- DEFAULT STATE (no image/camera) -->
+                                <div class="media-placeholder" id="mediaPlaceholder">
+                                    <div class="placeholder-icon">
+                                        <i class="fa-solid fa-face-viewfinder"></i>
+                                    </div>
+                                    <p>Aktifkan kamera atau upload foto wajah</p>
+                                    <small>Pastikan wajah terlihat jelas dengan pencahayaan yang baik</small>
+                                </div>
+                            </div>
+
+                            <!-- Camera Controls -->
+                            <div class="camera-controls">
+                                <button class="btn btn-camera" id="btnStartCamera">
+                                    <i class="fa-solid fa-camera"></i> Buka Kamera
+                                </button>
+                                <button class="btn btn-upload" id="btnTriggerUpload">
+                                    <i class="fa-solid fa-image"></i> Upload Foto
+                                </button>
+                                <input type="file" id="fileInput" accept="image/*" class="hidden">
+                                <button class="btn btn-capture hidden" id="btnCapture">
+                                    <i class="fa-solid fa-circle-dot"></i> Ambil Foto
+                                </button>
+                                <button class="btn btn-stop-camera hidden" id="btnStopCamera">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Instruction Panel -->
+                        <div class="input-instruction-area">
+                            <div class="instruction-badge">
+                                <i class="fa-solid fa-robot"></i> AI SKIN ANALYZER
+                            </div>
+                            <h3>Cara Mendapatkan Hasil Terbaik</h3>
+
+                            <div class="instruction-steps">
+                                <div class="inst-step">
+                                    <div class="step-num">1</div>
+                                    <div class="step-text">
+                                        <strong>Ambil Foto Selfie</strong>
+                                        <span>Aktifkan kamera atau upload foto selfie terbaru</span>
+                                    </div>
+                                </div>
+                                <div class="inst-step">
+                                    <div class="step-num">2</div>
+                                    <div class="step-text">
+                                        <strong>Pencahayaan Alami</strong>
+                                        <span>Foto di tempat dengan cahaya cukup, hindari backlight</span>
+                                    </div>
+                                </div>
+                                <div class="inst-step">
+                                    <div class="step-num">3</div>
+                                    <div class="step-text">
+                                        <strong>Wajah Tanpa Makeup</strong>
+                                        <span>Untuk hasil akurat, sebaiknya wajah dalam kondisi bersih</span>
+                                    </div>
+                                </div>
+                                <div class="inst-step">
+                                    <div class="step-num">4</div>
+                                    <div class="step-text">
+                                        <strong>Isi Data & Dapatkan Hasil</strong>
+                                        <span>Hasil analisis lengkap dikirim setelah Anda isi data diri</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ai-info-card">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <p>Foto Anda diproses secara aman oleh Gemini AI dan <strong>tidak disimpan</strong> secara permanen di server kami.</p>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block btn-start-scan" id="btnStartAnalysis">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Mulai Analisis AI Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================== STATE 2: SCANNING ANIMATION =================== -->
+                <div class="scanner-state" id="stateScanning">
+                    <div class="scanning-display">
+                        <div class="scanning-visual">
+                            <!-- Image being scanned -->
+                            <div class="scan-image-container">
+                                <img id="scanningImage" alt="Sedang menganalisis..." class="scan-subject-img">
+                                <!-- Overlay animation layers -->
+                                <div class="scan-overlay">
+                                    <div class="scan-grid"></div>
+                                    <div class="scan-line" id="scanLine"></div>
+                                    <div class="scan-corners">
+                                        <span class="corner tl"></span>
+                                        <span class="corner tr"></span>
+                                        <span class="corner bl"></span>
+                                        <span class="corner br"></span>
+                                    </div>
+                                    <div class="scan-face-box" id="scanFaceBox"></div>
+                                    <div class="scan-dots" id="scanDots"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scanning-info">
+                            <div class="ai-spinner">
+                                <div class="spinner-ring"></div>
+                                <i class="fa-solid fa-brain spinner-icon"></i>
+                            </div>
+                            <h3>AI Sedang Menganalisis Kulit Anda</h3>
+                            <p class="scan-status-text" id="scanStatusText">Menginisialisasi Gemini 3.5 Flash...</p>
+                            <div class="scan-progress-bar">
+                                <div class="scan-progress-fill" id="scanProgressFill"></div>
+                            </div>
+                            <div class="scan-parameters">
+                                <div class="param-chip" id="paramJerawat"><i class="fa-solid fa-circle-dot"></i> Jerawat & Komedo</div>
+                                <div class="param-chip" id="paramMinyak"><i class="fa-solid fa-circle-dot"></i> Kontrol Minyak</div>
+                                <div class="param-chip" id="paramHiper"><i class="fa-solid fa-circle-dot"></i> Hiperpigmentasi</div>
+                                <div class="param-chip" id="paramLembap"><i class="fa-solid fa-circle-dot"></i> Kelembapan</div>
+                                <div class="param-chip" id="paramPenuaan"><i class="fa-solid fa-circle-dot"></i> Penuaan Dini</div>
+                                <div class="param-chip" id="paramSensitif"><i class="fa-solid fa-circle-dot"></i> Sensitivitas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================== STATE 2.5: MANDATORY FORM =================== -->
+                <div class="scanner-state" id="stateForm">
+                    <div class="scanner-form-box">
+                        <div class="form-box-header text-center">
+                            <div class="form-box-icon"><i class="fa-solid fa-lock-open"></i></div>
+                            <h3>Analisis AI Selesai!</h3>
+                            <p>Isi data diri di bawah ini untuk membuka Laporan Diagnostik & Rekomendasi Produk ERHA secara lengkap.</p>
+                        </div>
+                        <form id="preReportLeadForm" class="scanner-lead-form">
+                            <div class="form-row-2">
+                                <div class="form-group-sm">
+                                    <label for="preName">Nama Lengkap <span class="req">*</span></label>
+                                    <input type="text" id="preName" class="form-input-sm" placeholder="Nama Anda" required>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="preWhatsapp">Nomor WhatsApp <span class="req">*</span></label>
+                                    <input type="tel" id="preWhatsapp" class="form-input-sm" placeholder="08xxxxxxxxxx" required>
+                                </div>
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group-sm">
+                                    <label for="preEmail">Alamat Email</label>
+                                    <input type="email" id="preEmail" class="form-input-sm" placeholder="email@anda.com">
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="preCity">Kota / Kabupaten <span class="req">*</span></label>
+                                    <input type="text" id="preCity" class="form-input-sm" placeholder="Contoh: Jakarta Selatan" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="btnUnlockReport">
+                                <i class="fa-solid fa-square-check"></i> Buka Laporan Diagnostik Kulit Saya
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- =================== STATE 3: RESULTS =================== -->
+                <div class="scanner-state" id="stateResults">
+
+                    <!-- TOP SECTION: RECOMMENDED PRODUCTS -->
+                    <div class="reco-products-card reco-top-card">
+                        <h4 class="panel-label"><i class="fa-solid fa-wand-sparkles"></i> Rekomendasi Produk ERHA Terbaik Untuk Kondisi Kulit Anda</h4>
+                        <div id="recoProductsGrid" class="reco-products-grid"></div>
+                    </div>
+
+                    <!-- Results summary header -->
+                    <div class="results-header">
+                        <div class="results-title-area">
+                            <div class="results-badge"><i class="fa-solid fa-check-circle"></i> Analisis Selesai</div>
+                            <h2>Laporan Kondisi Kulit Anda</h2>
+                            <p id="resultsSummary" class="results-summary-text">—</p>
+                        </div>
+                        <div class="results-skin-type-badge" id="resultsSkinTypeBadge">
+                            Tipe Kulit: <strong id="resultsSkinType">—</strong>
+                        </div>
+                    </div>
+
+                    <div class="results-grid">
+
+                        <!-- LEFT: Chart + Scores -->
+                        <div class="results-left-panel">
+
+                            <!-- Radar/Spider Chart SVG -->
+                            <div class="chart-container">
+                                <h4 class="panel-label"><i class="fa-solid fa-chart-radar"></i> Skor Kondisi Kulit</h4>
+                                <div class="radar-chart-wrapper">
+                                    <svg id="radarChart" viewBox="0 0 300 300" class="radar-svg"></svg>
+                                    <div class="radar-labels" id="radarLabels"></div>
+                                </div>
+                            </div>
+
+                            <!-- Condition Score Bars -->
+                            <div class="score-bars-container">
+                                <h4 class="panel-label"><i class="fa-solid fa-bars-progress"></i> Detail Skor Per Parameter</h4>
+                                <div id="scoreBarsGrid" class="score-bars-grid"></div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT: Diagnosis -->
+                        <div class="results-right-panel">
+
+                            <!-- Professional Diagnosis -->
+                            <div class="diagnosis-card">
+                                <div class="diagnosis-header">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                    <h4>Diagnosis Profesional Dermatologi</h4>
+                                </div>
+                                <p id="diagnosisProfessional" class="diagnosis-text">—</p>
+                                <div class="diagnosis-tips" id="diagnosisTips"></div>
+                            </div>
+
+                            <!-- Direct WA Contact Banner -->
+                            <div class="lead-capture-card">
+                                <div class="lead-form-intro">
+                                    <i class="fa-brands fa-whatsapp" style="color:#25d366;font-size:1.6rem;"></i>
+                                    <div>
+                                        <h4>Konsultasi Gratis via WhatsApp</h4>
+                                        <p>Laporan Anda telah tersimpan. Hubungi Skin Expert ERHA sekarang untuk panduan pemakaian produk.</p>
+                                    </div>
+                                </div>
+                                <a href="#" id="btnDirectWA" target="_blank" class="btn btn-whatsapp btn-block">
+                                    <i class="fa-brands fa-whatsapp"></i> Chat Skin Expert ERHA
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Scan Again -->
+                    <div class="text-center mt-3">
+                        <button class="btn btn-outline" id="btnScanAgain">
+                            <i class="fa-solid fa-rotate"></i> Scan Ulang dengan Foto Berbeda
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND CATEGORIES CHIP BAR -->
+    <section class="brand-bar-section">
+        <div class="container">
+            <p class="brand-bar-title">RANGKAIAN LENGKAP ERHA DERMATOLOGY — FILTER BERDASARKAN KEBUTUHAN</p>
+            <div class="brand-cards-grid">
+                <div class="brand-chip active" data-filter="all"><i class="fa-solid fa-sparkles"></i> Semua</div>
+                <div class="brand-chip" data-filter="acneact"><span class="chip-dot acne"></span> ERHA Acneact</div>
+                <div class="brand-chip" data-filter="truwhite"><span class="chip-dot white"></span> ERHA Truwhite</div>
+                <div class="brand-chip" data-filter="agecorrector"><span class="chip-dot age"></span> Age Corrector</div>
+                <div class="brand-chip" data-filter="skinsitive"><span class="chip-dot skin"></span> ERHA Skinsitive</div>
+                <div class="brand-chip" data-filter="erhair"><span class="chip-dot hair"></span> ERHAIR</div>
+                <div class="brand-chip" data-filter="hiserha"><span class="chip-dot men"></span> HISERHA Men</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">KATALOG OFFICIAL ERHASTORE.CO.ID</span>
+                <h2 class="section-title">Solusi Dermatologi Lengkap Sesuai Kondisi Kulit</h2>
+                <p class="section-desc">Seluruh produk terdaftar BPOM, diformulasikan oleh Dokter Spesialis Kulit. Scan kulit dulu untuk rekomendasi personal!</p>
+            </div>
+            <div class="product-gallery">
+                <div class="product-banner-card">
+                    <img src="images/product_showcase.png" alt="Produk ERHA Store" class="product-banner-img">
+                    <div class="banner-overlay">
+                        <h3>Koleksi Resmi ERHASTORE.CO.ID</h3>
+                        <p>Scan kulit Anda dengan AI untuk mendapatkan rekomendasi produk yang paling tepat sasaran.</p>
+                    </div>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <div class="loading-products"><i class="fa-solid fa-spinner fa-spin"></i> Memuat katalog dari Firestore...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">TESTIMONI PELANGGAN</span>
+                <h2 class="section-title">Kisah Sukses Transformasi Kulit Bersama ERHA</h2>
+                <p class="section-desc">Lebih dari 500.000+ pelanggan mempercayakan kesehatan kulitnya pada ERHA.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="star-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text">"AI Scan-nya keren banget! Langsung ketahuan kulit saya dominan jerawat meradang. Pakai rangkaian Acneact sesuai rekomendasi AI, dalam 2 minggu hasilnya luar biasa!"</p>
+                    <div class="user-profile">
+                        <div class="avatar">R</div>
+                        <div class="user-details"><strong>Rina Fitriani</strong><span>Surabaya • Masalah Acne & Oil</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="star-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text">"Diagnosis AI-nya detail banget, sampai ada skor per masalah kulit. Truwhite yang direkomendasikan benar-benar cocok buat flek hitam saya. Amazed!"</p>
+                    <div class="user-profile">
+                        <div class="avatar">D</div>
+                        <div class="user-details"><strong>Dewi Kartika</strong><span>Jakarta • Flek Hitam & Kusam</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="star-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text">"Sebagai pria saya skeptis awalnya, tapi AI scan-nya akurat banget. Langsung disarankan pakai HISERHA sesuai kondisi kulit pria saya yang berminyak."</p>
+                    <div class="user-profile">
+                        <div class="avatar">B</div>
+                        <div class="user-details"><strong>Bagas Prasetyo</strong><span>Bandung • Kulit Pria Berminyak</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-subtitle">PERTANYAAN UMUM</span>
+                <h2 class="section-title">Ada Pertanyaan Mengenai AI Skin Diagnosis?</h2>
+            </div>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button class="faq-question"><span>Apakah AI Skin Diagnosis ini akurat?</span><i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>AI kami menggunakan Google Gemini 3.5 Flash, model multimodal terbaru yang dilatih dengan jutaan data gambar dermatologis. Hasil analisis memberikan indikasi kondisi kulit yang sangat akurat untuk memandu pemilihan produk perawatan yang tepat.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Apakah foto saya aman dan tersimpan?</span><i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Foto Anda diproses secara real-time oleh Gemini AI dan tidak disimpan secara permanen. Hanya thumbnail kecil (opsional) yang tersimpan untuk keperluan laporan Anda. Data dikenkripsi penuh selama proses transmisi.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Apakah produk yang direkomendasikan 100% original?</span><i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Ya, 100% Original. ERHASTORE adalah Official Online Store resmi ERHA. Seluruh rekomendasi produk dari AI kami langsung terhubung ke katalog resmi ERHASTORE yang dijamin keasliannya.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question"><span>Berapa lama hasil analisis AI bisa terlihat pada kulit?</span><i class="fa-solid fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Saat menggunakan produk yang direkomendasikan AI sesuai kondisi kulit Anda, perbaikan signifikan umumnya terlihat dalam 7-14 hari pemakaian rutin sesuai dosis. AI diagnosis memastikan Anda menggunakan produk yang benar-benar sesuai.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta-section">
+        <div class="container">
+            <div class="final-cta-box">
+                <div class="cta-ai-icon"><i class="fa-solid fa-brain"></i></div>
+                <h2>Scan Kulit Anda Sekarang dengan AI Gemini</h2>
+                <p>Dapatkan diagnosis kondisi kulit dan rekomendasi produk ERHA yang dipersonalisasi untuk Anda — gratis!</p>
+                <a href="#ai-scanner" class="btn btn-gold btn-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Mulai AI Skin Scan Gratis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <span class="logo-badge">ERHA</span>
+                    <span class="brand-name">ERHASTORE</span>
+                </div>
+                <p class="footer-about">ERHASTORE.CO.ID — Official Store skincare & hair care ERHA dengan teknologi AI Skin Diagnosis berbasis Gemini untuk rekomendasi produk yang presisi.</p>
+                <div class="footer-socials">
+                    <a href="https://www.erhastore.co.id/" target="_blank"><i class="fa-solid fa-globe"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Rangkaian Produk</h4>
+                <ul class="footer-links">
+                    <li><a href="#products">ERHA Acneact (Jerawat)</a></li>
+                    <li><a href="#products">ERHA Truwhite (Brightening)</a></li>
+                    <li><a href="#products">Age Corrector (Anti-Aging)</a></li>
+                    <li><a href="#products">ERHA Skinsitive (Sensitif)</a></li>
+                    <li><a href="#products">ERHAIR (Hair Care)</a></li>
+                    <li><a href="#products">HISERHA (Pria)</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <ul class="footer-links">
+                    <li><a href="#ai-scanner">AI Skin Diagnosis</a></li>
+                    <li><a href="#faq">FAQ & Bantuan</a></li>
+                    <li><a href="#">Cek Pengiriman</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Teknologi</h4>
+                <div class="footer-tech-badges">
+                    <div class="tech-badge"><i class="fa-brands fa-google"></i> Gemini 3.5 Flash</div>
+                    <div class="tech-badge"><i class="fa-solid fa-fire-flame-curved"></i> Google Firestore</div>
+                    <div class="tech-badge"><i class="fa-solid fa-shield-check"></i> BPOM Certified</div>
+                    <div class="tech-badge"><i class="fa-solid fa-user-doctor"></i> Dermatologist Tested</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 ERHASTORE OFFICIAL. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p class="footer-ai-note"><i class="fa-solid fa-brain"></i> AI Skin Analysis Powered by Google Gemini 3.5 Flash on Vertex AI</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WA BUTTON -->
+    <a href="#ai-scanner" class="floating-wa-btn" aria-label="AI Skin Scan">
+        <i class="fa-solid fa-brain"></i>
+        <span class="wa-tooltip">AI Skin Scan Gratis</span>
+    </a>
+
+    <!-- SUCCESS SAVE MODAL -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-card text-center">
+            <div class="modal-icon green"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>Laporan Berhasil Disimpan!</h3>
+            <p>Terima kasih <strong id="modalSavedName"></strong>! Skin Expert ERHA akan segera menghubungi Anda via WhatsApp.</p>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-whatsapp btn-block" id="btnWaRedirect" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Chat Skin Expert Sekarang
+                </a>
+                <button class="btn btn-outline btn-block" id="btnCloseModal">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

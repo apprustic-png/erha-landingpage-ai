@@ -314,12 +314,41 @@ app.delete('/api/products/:sku', async (req, res) => {
 });
 
 /* ==========================================================================
-   STATIC SERVING
+   STATIC SERVING — Serves from /public on Vercel, root for local dev
    ========================================================================== */
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
-app.use('/', express.static(path.join(__dirname, './')));
+const publicDir = path.join(__dirname, 'public');
+const rootDir = __dirname;
 
-app.get('/admin/*', (req, res) => res.sendFile(path.join(__dirname, 'admin', 'index.html')));
+// Serve admin static files
+app.use('/admin', express.static(path.join(publicDir, 'admin')));
+app.use('/admin', express.static(path.join(rootDir, 'admin')));
+
+// Serve other static files (CSS, JS, images)
+app.use(express.static(publicDir));
+app.use(express.static(rootDir));
+
+// Explicit landing page route
+app.get('/', (req, res) => {
+  const indexPath = require('fs').existsSync(path.join(publicDir, 'index.html'))
+    ? path.join(publicDir, 'index.html')
+    : path.join(rootDir, 'index.html');
+  res.sendFile(indexPath);
+});
+
+// Admin panel catch-all
+app.get('/admin', (req, res) => {
+  const adminPath = require('fs').existsSync(path.join(publicDir, 'admin', 'index.html'))
+    ? path.join(publicDir, 'admin', 'index.html')
+    : path.join(rootDir, 'admin', 'index.html');
+  res.sendFile(adminPath);
+});
+
+app.get('/admin/*', (req, res) => {
+  const adminPath = require('fs').existsSync(path.join(publicDir, 'admin', 'index.html'))
+    ? path.join(publicDir, 'admin', 'index.html')
+    : path.join(rootDir, 'admin', 'index.html');
+  res.sendFile(adminPath);
+});
 
 const PORT = process.env.PORT || 8080;
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {

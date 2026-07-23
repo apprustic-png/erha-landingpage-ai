@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERHA Admin — AI Analyses & Products Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Extra admin styles for analyses */
+        .skin-type-tag { background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.25);color:#00e5ff;padding:3px 10px;border-radius:100px;font-size:0.73rem;font-weight:600;white-space:nowrap; }
+        .issue-tag { background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:#ffc107;padding:3px 10px;border-radius:100px;font-size:0.73rem;white-space:nowrap; }
+        .sku-tag { display:inline-block;background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.2);color:#39ff14;padding:2px 7px;border-radius:4px;font-size:0.68rem;font-family:monospace;margin:1px; }
+        .status-select { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);border-radius:6px;padding:4px 8px;font-size:0.74rem;cursor:pointer;font-family:inherit; }
+        .category-tag { background:rgba(0,188,212,0.1);color:#00bcd4;padding:3px 10px;border-radius:100px;font-size:0.75rem; }
+        /* Detail Modal */
+        .detail-modal-backdrop { position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9999; }
+        .detail-modal-backdrop.show { display:flex; }
+        .detail-modal-card { background:var(--bg-card);border:1px solid rgba(0,229,255,0.15);border-radius:20px;padding:32px;max-width:700px;width:100%;margin:16px;max-height:85vh;overflow-y:auto; }
+        .detail-modal-card h3 { color:#fff;margin-bottom:20px;font-size:1.2rem;border-bottom:1px solid rgba(0,229,255,0.12);padding-bottom:12px; }
+    </style>
+</head>
+<body>
+    <!-- AUTH SCREEN -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="logo-badge">ERHA</div>
+                <div>
+                    <div class="brand-name">ERHASTORE</div>
+                    <div class="brand-sub">AI ADMIN PANEL</div>
+                </div>
+            </div>
+            <h2 class="auth-title">Selamat Datang, Admin</h2>
+            <p class="auth-subtitle">Login untuk mengelola AI Skin Analyses & Katalog Produk</p>
+            <div id="authAlert" class="auth-alert" style="display:none;"></div>
+            <form id="adminLoginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email Administrator</label>
+                    <div class="input-icon-box">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="adminEmail" class="form-input" placeholder="admin@erha.co.id" required autocomplete="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-icon-box">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="adminPassword" class="form-input" placeholder="Password" required autocomplete="current-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN APP -->
+    <div class="admin-app" id="adminApp" style="display:none;">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-badge sm">ERHA</div>
+                <div>
+                    <div class="brand-name sm">ERHASTORE</div>
+                    <div class="brand-sub">AI Admin</div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="sidebar-tab active" data-tab="tab-analyses">
+                    <i class="fa-solid fa-brain"></i> AI Analyses
+                </button>
+                <button class="sidebar-tab" data-tab="tab-products">
+                    <i class="fa-solid fa-box-open"></i> Produk
+                </button>
+                <button class="sidebar-tab" data-tab="tab-add-product">
+                    <i class="fa-solid fa-plus-circle"></i> Tambah Produk
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                    <span class="sidebar-email" id="adminEmailDisplay">Admin</span>
+                </div>
+                <button class="btn-logout" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">AI Skin Diagnosis Dashboard</h1>
+                    <p class="page-desc">Monitor hasil analisis kulit & kelola katalog produk secara live</p>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;">
+                    <button class="btn btn-outline btn-sm" id="btnExportCSV">
+                        <i class="fa-solid fa-file-csv"></i> Export CSV
+                    </button>
+                    <button class="btn btn-primary btn-sm" id="btnRefreshData">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-brain"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Analisis</span>
+                        <span class="stat-value" id="statTotalAnalyses">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon teal"><i class="fa-solid fa-sparkles"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Analisis Baru</span>
+                        <span class="stat-value" id="statNewAnalyses">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Converted</span>
+                        <span class="stat-value" id="statConverted">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-box"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Produk</span>
+                        <span class="stat-value" id="statTotalProducts">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Isu Terbanyak</span>
+                        <span class="stat-value" style="font-size:0.9rem;" id="statTopIssue">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: ANALYSES -->
+            <div class="tab-panel active" id="tab-analyses">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-brain" style="color:#00e5ff;margin-right:8px;"></i>Hasil AI Skin Analyses</h3>
+                        <span class="panel-badge live"><i class="fa-solid fa-circle"></i> LIVE</span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Pelanggan</th>
+                                    <th>Kontak</th>
+                                    <th>Tipe Kulit</th>
+                                    <th>Prioritas</th>
+                                    <th>Rekomendasi SKU</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analysesTableBody">
+                                <tr><td colspan="8" style="text-align:center;padding:32px;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PRODUCTS -->
+            <div class="tab-panel" id="tab-products">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-box-open" style="color:#00bcd4;margin-right:8px;"></i>Katalog Produk (Firestore Live)</h3>
+                        <span class="panel-badge live"><i class="fa-solid fa-circle"></i> LIVE</span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Foto</th>
+                                    <th>Nama Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Concern</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Memuat...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: ADD PRODUCT -->
+            <div class="tab-panel" id="tab-add-product">
+                <div class="panel-card" style="max-width:640px;">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-plus-circle" style="color:#39ff14;margin-right:8px;"></i>Tambah Produk Baru ke Firestore</h3>
+                    </div>
+                    <form id="addProductForm">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>SKU *</label>
+                                <input type="text" id="pSku" class="form-input" placeholder="F122XXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Brand *</label>
+                                <input type="text" id="pBrand" class="form-input" placeholder="ERHA ACNEACT" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Produk *</label>
+                            <input type="text" id="pTitle" class="form-input" placeholder="Nama produk lengkap" required>
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>Kategori *</label>
+                                <select id="pCategory" class="form-input">
+                                    <option value="acneact">ERHA Acneact</option>
+                                    <option value="truwhite">ERHA Truwhite</option>
+                                    <option value="agecorrector">Age Corrector</option>
+                                    <option value="skinsitive">ERHA Skinsitive</option>
+                                    <option value="erhair">ERHAIR</option>
+                                    <option value="hiserha">HISERHA Men</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Harga Coret (Rp)</label>
+                                <input type="number" id="pOldPrice" class="form-input" placeholder="220000">
+                            </div>
+                        </div>
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>Harga Sekarang (Rp) *</label>
+                                <input type="number" id="pPrice" class="form-input" placeholder="185000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>URL Gambar</label>
+                                <input type="url" id="pImageUrl" class="form-input" placeholder="https://...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Concern (keywords dipisah koma)</label>
+                            <input type="text" id="pConcern" class="form-input" placeholder="jerawat,minyak berlebih,komedo">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-plus"></i> Tambah Produk ke Firestore
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ANALYSIS DETAIL MODAL -->
+    <div class="detail-modal-backdrop" id="analysisDetailModal">
+        <div class="detail-modal-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h3 style="margin:0;"><i class="fa-solid fa-brain" style="color:#00e5ff;margin-right:10px;"></i>Detail AI Skin Analysis</h3>
+                <button id="closeDetailModal" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.2rem;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="analysisDetailContent"></div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
