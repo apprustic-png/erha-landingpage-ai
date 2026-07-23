@@ -1,0 +1,469 @@
+/* ==========================================================================
+   ERHASTORE ADMIN PANEL - STYLESYSTEM
+   ========================================================================== */
+
+:root {
+    --primary-color: #00828A;
+    --primary-hover: #00666C;
+    --primary-light: #E6F5F5;
+    --sidebar-bg: #0F172A;
+    --sidebar-active: #1E293B;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    --bg-body: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --border-color: #E2E8F0;
+    --font-main: 'Plus Jakarta Sans', sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* --- AUTH LOGIN SCREEN --- */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0F172A 0%, #004D52 100%);
+    padding: 20px;
+}
+
+.auth-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 30px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-badge {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    font-weight: 900;
+    font-size: 1.2rem;
+    padding: 4px 14px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.auth-header h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.auth-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.input-icon-box {
+    position: relative;
+}
+
+.input-icon-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.input-icon-box .form-input {
+    padding-left: 42px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #F8FAFC;
+    color: var(--text-main);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: #FFFFFF;
+}
+
+.auth-alert {
+    display: none;
+    padding: 10px 14px;
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* --- BUTTONS --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-primary { background-color: var(--primary-color); color: #FFFFFF; }
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+.btn-primary-light { background-color: var(--primary-light); color: var(--primary-color); }
+.btn-outline { background-color: transparent; border-color: var(--border-color); color: var(--text-main); }
+.btn-outline:hover { background-color: var(--bg-body); }
+.btn-logout { background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border: none; }
+.btn-logout:hover { background-color: #EF4444; color: #FFFFFF; }
+
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+.btn-block { width: 100%; }
+
+/* --- ADMIN LAYOUT APP --- */
+.admin-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    color: #94A3B8;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 25px 20px;
+    border-bottom: 1px solid #1E293B;
+}
+
+.logo-badge {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    font-weight: 900;
+    font-size: 1.1rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.logo-text strong { display: block; color: #FFFFFF; font-size: 1rem; }
+.logo-text span { font-size: 0.65rem; color: var(--primary-color); letter-spacing: 1px; }
+
+.sidebar-menu {
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #94A3B8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover, .sidebar-link.active {
+    background-color: var(--sidebar-active);
+    color: #FFFFFF;
+}
+
+.sidebar-link.active i {
+    color: var(--primary-color);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #1E293B;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info strong { display: block; color: #FFFFFF; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+.user-info span { font-size: 0.7rem; color: #64748B; }
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.header-title h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #22C55E;
+    border-radius: 50%;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* --- TAB CONTENT --- */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* --- STATS GRID --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+.stat-icon.teal { background-color: var(--primary-light); color: var(--primary-color); }
+.stat-icon.green { background-color: #DCFCE7; color: #166534; }
+.stat-icon.gold { background-color: #FEF3C7; color: #B45309; }
+
+.stat-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.stat-value { font-size: 1.8rem; font-weight: 800; color: var(--text-main); }
+
+/* --- DATA TABLES --- */
+.panel-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.data-table th, .data-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+    background-color: #F8FAFC;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.data-table tbody tr:hover {
+    background-color: #F1F5F9;
+}
+
+.badge-status {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+.status-baru { background-color: #DBEAFE; color: #1E40AF; }
+.status-dihubungi { background-color: #FEF3C7; color: #92400E; }
+.status-converted { background-color: #D1FAE5; color: #065F46; }
+
+.btn-wa-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: #25D366;
+    color: #FFFFFF;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* --- MODAL --- */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 550px;
+    padding: 30px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* --- UTILITY CLASSES --- */
+.text-muted { color: var(--text-muted); }
+.text-teal { color: var(--primary-color); }
+.text-center { text-align: center; }
+.font-sm { font-size: 0.85rem; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 24px; }
+.py-4 { padding: 24px 0; }
+
+select.form-input { padding-left: 14px; }
+textarea.form-input { padding-left: 14px; resize: vertical; }

@@ -1,0 +1,48 @@
+rules_version = '2';
+// =============================================================================
+// ERHASTORE OFFICIAL — Firestore Security Rules
+// Project: erha-4755a
+// =============================================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // PRODUCTS COLLECTION
+    // Readable by anyone (landing page catalog display).
+    // Writable ONLY via backend Firebase Admin SDK (bypasses these rules).
+    // -------------------------------------------------------------------------
+    match /products/{sku} {
+      allow read: if true;
+      allow write: if false; // Server-side only (Admin SDK bypasses Firestore rules)
+    }
+
+    // -------------------------------------------------------------------------
+    // ANALYSES COLLECTION (New — replaces leads)
+    // - Anyone can CREATE a new analysis (from the AI scan form).
+    // - No client-side READ/UPDATE/DELETE (admin panel uses Admin SDK).
+    // - Validates required fields on create.
+    // -------------------------------------------------------------------------
+    match /analyses/{analysisId} {
+      allow create: if
+        // Must include name and whatsapp
+        request.resource.data.keys().hasAll(['name', 'whatsapp'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.whatsapp is string
+        && request.resource.data.whatsapp.size() >= 9
+        // Prevent huge payloads (image data excluded, analysis object OK)
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.whatsapp.size() <= 20;
+
+      // All reads, updates, deletes go through Admin SDK (admin panel server)
+      allow read, update, delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // FALLBACK: Deny all other collections/documents
+    // -------------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
