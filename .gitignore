@@ -11,6 +11,7 @@ yarn-error.log*
 *.json
 !package.json
 !package-lock.json
+!vercel.json
 
 # IDE & Editor files
 .vscode/
