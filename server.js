@@ -8,15 +8,32 @@ const vertexAIProxyHandler = require('./api/vertex-proxy');
 /* ==========================================================================
    SERVICE ACCOUNT #1: Firebase Admin SDK → Firestore (erha-4755a)
    ========================================================================== */
-const firestoreServiceAccount = require('./serviceAccountKey.json');
+let firestoreServiceAccount;
+if (process.env.FIRESTORE_SERVICE_ACCOUNT) {
+  try {
+    firestoreServiceAccount = typeof process.env.FIRESTORE_SERVICE_ACCOUNT === 'string'
+      ? JSON.parse(process.env.FIRESTORE_SERVICE_ACCOUNT)
+      : process.env.FIRESTORE_SERVICE_ACCOUNT;
+  } catch (e) {
+    console.error('Failed to parse FIRESTORE_SERVICE_ACCOUNT env:', e);
+  }
+}
 
-if (!admin.apps.length) {
+if (!firestoreServiceAccount) {
+  try {
+    firestoreServiceAccount = require('./serviceAccountKey.json');
+  } catch (e) {
+    console.log('serviceAccountKey.json not found, skipping local file require');
+  }
+}
+
+if (!admin.apps.length && firestoreServiceAccount) {
   admin.initializeApp({
     credential: admin.credential.cert(firestoreServiceAccount)
   });
 }
 
-const db = admin.firestore();
+const db = admin.apps.length ? admin.firestore() : null;
 
 const VERTEX_PROJECT = 'tutorialappbuilder';
 const GEMINI_MODEL = 'gemini-3.5-flash';
@@ -305,12 +322,16 @@ app.use('/', express.static(path.join(__dirname, './')));
 app.get('/admin/*', (req, res) => res.sendFile(path.join(__dirname, 'admin', 'index.html')));
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`🚀 ERHA Server Running!`);
-  console.log(`🌐 Landing Page:  http://localhost:${PORT}`);
-  console.log(`🔐 Admin Panel:   http://localhost:${PORT}/admin`);
-  console.log(`🤖 Gemini Model:  ${GEMINI_MODEL} (${VERTEX_PROJECT})`);
-  console.log(`🔥 Firestore:     erha-4755a`);
-  console.log(`====================================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🚀 ERHA Server Running!`);
+    console.log(`🌐 Landing Page:  http://localhost:${PORT}`);
+    console.log(`🔐 Admin Panel:   http://localhost:${PORT}/admin`);
+    console.log(`🤖 Gemini Model:  ${GEMINI_MODEL} (${VERTEX_PROJECT})`);
+    console.log(`🔥 Firestore:     erha-4755a`);
+    console.log(`====================================================`);
+  });
+}
+
+module.exports = app;
