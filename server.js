@@ -6,20 +6,17 @@ const admin = require('firebase-admin');
 const vertexAIProxyHandler = require('./api/vertex-proxy');
 
 /* ==========================================================================
-   SERVICE ACCOUNT: Firebase Admin SDK → Firestore (erha-4755a)
+   SERVICE ACCOUNT #1: Firebase Admin SDK → Firestore (erha-4755a)
    ========================================================================== */
-try {
-  const firestoreServiceAccount = require('./serviceAccountKey.json');
-  if (firestoreServiceAccount.private_key && firestoreServiceAccount.private_key.length > 100) {
-    admin.initializeApp({
-      credential: admin.credential.cert(firestoreServiceAccount)
-    });
-  }
-} catch (e) {
-  console.log('Firestore init skipped or key unavailable');
+const firestoreServiceAccount = require('./serviceAccountKey.json');
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(firestoreServiceAccount)
+  });
 }
 
-const db = admin.apps.length ? admin.firestore() : null;
+const db = admin.firestore();
 
 const VERTEX_PROJECT = 'tutorialappbuilder';
 const GEMINI_MODEL = 'gemini-3.5-flash';

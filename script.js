@@ -252,8 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (statusEl) statusEl.textContent = '✅ Analisis selesai! Memuat laporan...';
             params.forEach(p => { const el = document.getElementById(p); if (el) { el.classList.add('done'); el.classList.remove('active'); } });
 
-            await sleep(900);
-            displayResults(result.analysis);
+            await sleep(600);
+            // Transition to mandatory lead form before showing report
+            switchState('stateForm');
 
         } catch (err) {
             clearInterval(statusInterval);
@@ -262,6 +263,62 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast('Analisis AI gagal: ' + err.message, 'error');
         }
     }
+
+    /* ---- PRE-REPORT MANDATORY LEAD FORM SUBMISSION ---- */
+    const preReportLeadForm = document.getElementById('preReportLeadForm');
+    preReportLeadForm && preReportLeadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btnUnlockReport');
+        if (!btn) return;
+
+        const name = document.getElementById('preName')?.value.trim();
+        const whatsapp = document.getElementById('preWhatsapp')?.value.trim();
+        const email = document.getElementById('preEmail')?.value.trim();
+        const city = document.getElementById('preCity')?.value.trim();
+
+        if (!name || !whatsapp || !city) {
+            showToast('Nama, WhatsApp, dan Kota wajib diisi.', 'warning');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan & Membuka Laporan...';
+
+        try {
+            const payload = {
+                name, email: email || '', whatsapp, city: city || '',
+                analysis: analysisResult,
+                imageThumb: capturedImageBase64 ? capturedImageBase64.substring(0, 200) : ''
+            };
+
+            const res = await fetch('/api/analyses', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+            if (!result.success) throw new Error(result.message || 'Gagal menyimpan data.');
+
+            // Configure direct WA link
+            const waBtn = document.getElementById('btnDirectWA');
+            if (waBtn) {
+                const waMsg = encodeURIComponent(`Halo, saya ${name} dari ${city}. Saya baru saja melakukan AI Skin Diagnosis di ERHASTORE dan ingin konsultasi lebih lanjut mengenai kondisi kulit saya (${analysisResult?.prioritasUtama || 'rekomendasi produk'}).`);
+                waBtn.href = `https://wa.me/628001392200?text=${waMsg}`;
+            }
+
+            showToast('Analisis berhasil dibuka & disimpan!', 'success');
+
+            // Unlock and display full report
+            displayResults(analysisResult);
+
+        } catch (err) {
+            showToast('Gagal menyimpan data: ' + err.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-square-check"></i> Buka Laporan Diagnostik Kulit Saya';
+        }
+    });
 
     function spawnScanDots() {
         const container = document.getElementById('scanDots');

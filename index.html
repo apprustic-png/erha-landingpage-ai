@@ -290,8 +290,50 @@
                     </div>
                 </div>
 
+                <!-- =================== STATE 2.5: MANDATORY FORM =================== -->
+                <div class="scanner-state" id="stateForm">
+                    <div class="scanner-form-box">
+                        <div class="form-box-header text-center">
+                            <div class="form-box-icon"><i class="fa-solid fa-lock-open"></i></div>
+                            <h3>Analisis AI Selesai!</h3>
+                            <p>Isi data diri di bawah ini untuk membuka Laporan Diagnostik & Rekomendasi Produk ERHA secara lengkap.</p>
+                        </div>
+                        <form id="preReportLeadForm" class="scanner-lead-form">
+                            <div class="form-row-2">
+                                <div class="form-group-sm">
+                                    <label for="preName">Nama Lengkap <span class="req">*</span></label>
+                                    <input type="text" id="preName" class="form-input-sm" placeholder="Nama Anda" required>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="preWhatsapp">Nomor WhatsApp <span class="req">*</span></label>
+                                    <input type="tel" id="preWhatsapp" class="form-input-sm" placeholder="08xxxxxxxxxx" required>
+                                </div>
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group-sm">
+                                    <label for="preEmail">Alamat Email</label>
+                                    <input type="email" id="preEmail" class="form-input-sm" placeholder="email@anda.com">
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="preCity">Kota / Kabupaten <span class="req">*</span></label>
+                                    <input type="text" id="preCity" class="form-input-sm" placeholder="Contoh: Jakarta Selatan" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="btnUnlockReport">
+                                <i class="fa-solid fa-square-check"></i> Buka Laporan Diagnostik Kulit Saya
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- =================== STATE 3: RESULTS =================== -->
                 <div class="scanner-state" id="stateResults">
+
+                    <!-- TOP SECTION: RECOMMENDED PRODUCTS -->
+                    <div class="reco-products-card reco-top-card">
+                        <h4 class="panel-label"><i class="fa-solid fa-wand-sparkles"></i> Rekomendasi Produk ERHA Terbaik Untuk Kondisi Kulit Anda</h4>
+                        <div id="recoProductsGrid" class="reco-products-grid"></div>
+                    </div>
 
                     <!-- Results summary header -->
                     <div class="results-header">
@@ -326,7 +368,7 @@
                             </div>
                         </div>
 
-                        <!-- RIGHT: Diagnosis + Form + Products -->
+                        <!-- RIGHT: Diagnosis -->
                         <div class="results-right-panel">
 
                             <!-- Professional Diagnosis -->
@@ -339,47 +381,20 @@
                                 <div class="diagnosis-tips" id="diagnosisTips"></div>
                             </div>
 
-                            <!-- Lead Capture Form -->
-                            <div class="lead-capture-card" id="leadCaptureCard">
+                            <!-- Direct WA Contact Banner -->
+                            <div class="lead-capture-card">
                                 <div class="lead-form-intro">
-                                    <i class="fa-solid fa-envelope-open-text"></i>
+                                    <i class="fa-brands fa-whatsapp" style="color:#25d366;font-size:1.6rem;"></i>
                                     <div>
-                                        <h4>Dapatkan Laporan Lengkap & Konsultasi Gratis</h4>
-                                        <p>Isi data di bawah untuk menerima laporan AI via WhatsApp dan konsultasi gratis dengan Skin Expert ERHA.</p>
+                                        <h4>Konsultasi Gratis via WhatsApp</h4>
+                                        <p>Laporan Anda telah tersimpan. Hubungi Skin Expert ERHA sekarang untuk panduan pemakaian produk.</p>
                                     </div>
                                 </div>
-                                <form id="resultsLeadForm">
-                                    <div class="form-row-2">
-                                        <div class="form-group-sm">
-                                            <label for="resName">Nama Lengkap <span class="req">*</span></label>
-                                            <input type="text" id="resName" class="form-input-sm" placeholder="Nama Anda" required>
-                                        </div>
-                                        <div class="form-group-sm">
-                                            <label for="resEmail">Email</label>
-                                            <input type="email" id="resEmail" class="form-input-sm" placeholder="email@anda.com">
-                                        </div>
-                                    </div>
-                                    <div class="form-row-2">
-                                        <div class="form-group-sm">
-                                            <label for="resWhatsapp">WhatsApp <span class="req">*</span></label>
-                                            <input type="tel" id="resWhatsapp" class="form-input-sm" placeholder="08xxxxxxxxxx" required>
-                                        </div>
-                                        <div class="form-group-sm">
-                                            <label for="resCity">Kota / Kabupaten <span class="req">*</span></label>
-                                            <input type="text" id="resCity" class="form-input-sm" placeholder="Jakarta, Surabaya, ..." required>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-block" id="btnSaveAnalysis">
-                                        <i class="fa-solid fa-paper-plane"></i> Simpan & Konsultasi via WA
-                                    </button>
-                                </form>
+                                <a href="#" id="btnDirectWA" target="_blank" class="btn btn-whatsapp btn-block">
+                                    <i class="fa-brands fa-whatsapp"></i> Chat Skin Expert ERHA
+                                </a>
                             </div>
 
-                            <!-- Recommended Products -->
-                            <div class="reco-products-card">
-                                <h4 class="panel-label"><i class="fa-solid fa-wand-sparkles"></i> Rekomendasi Produk ERHA Berdasarkan Analisis AI Anda</h4>
-                                <div id="recoProductsGrid" class="reco-products-grid"></div>
-                            </div>
                         </div>
                     </div>
 
