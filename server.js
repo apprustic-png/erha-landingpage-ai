@@ -28,9 +28,13 @@ if (!firestoreServiceAccount) {
 }
 
 if (!admin.apps.length && firestoreServiceAccount) {
-  admin.initializeApp({
-    credential: admin.credential.cert(firestoreServiceAccount)
-  });
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert(firestoreServiceAccount)
+    });
+  } catch (e) {
+    console.error('Failed to initialize Firebase Admin (Firestore disabled):', e.message);
+  }
 }
 
 const db = admin.apps.length ? admin.firestore() : null;
