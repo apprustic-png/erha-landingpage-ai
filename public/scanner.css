@@ -127,6 +127,17 @@
     border-radius: 14px;
 }
 
+/* Live MediaPipe Face Mesh overlay on camera feed */
+.media-preview-box #scanCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 6;
+    border-radius: 14px;
+}
+
 .media-placeholder {
     text-align: center;
     color: rgba(255,255,255,0.5);
@@ -288,95 +299,15 @@
     display: block;
 }
 
-/* Scan Overlay */
-.scan-overlay {
+/* MediaPipe Face Mesh wireframe canvas overlay (on scanning still image) */
+.scan-mesh-canvas {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 6;
     border-radius: 16px;
-    overflow: hidden;
-}
-
-/* Grid dots pattern */
-.scan-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-        radial-gradient(circle, rgba(0,229,255,0.5) 1px, transparent 1px);
-    background-size: 20px 20px;
-    opacity: 0.3;
-    animation: gridPulse 3s ease-in-out infinite;
-}
-@keyframes gridPulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.5; }
-}
-
-/* Scanning sweep line */
-.scan-line {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #00e5ff 30%, #39ff14 50%, #00e5ff 70%, transparent);
-    box-shadow: 0 0 16px #00e5ff, 0 0 32px rgba(0,229,255,0.5);
-    animation: scanSweep 2.5s ease-in-out infinite;
-    top: 0;
-}
-@keyframes scanSweep {
-    0% { top: 0; opacity: 1; }
-    85% { opacity: 1; }
-    100% { top: 100%; opacity: 0.3; }
-}
-
-/* Corner Brackets */
-.scan-corners { position: absolute; inset: 0; }
-.corner {
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    border-color: #00e5ff;
-    border-style: solid;
-    animation: cornerPulse 1.5s ease-in-out infinite alternate;
-}
-.corner.tl { top: 10px; left: 10px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
-.corner.tr { top: 10px; right: 10px; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
-.corner.bl { bottom: 10px; left: 10px; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
-.corner.br { bottom: 10px; right: 10px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
-@keyframes cornerPulse {
-    0% { border-color: #00e5ff; box-shadow: 0 0 6px rgba(0,229,255,0.5); }
-    100% { border-color: #39ff14; box-shadow: 0 0 10px rgba(57,255,20,0.5); }
-}
-
-/* Face Detection Box */
-.scan-face-box {
-    position: absolute;
-    top: 20%;
-    left: 20%;
-    right: 20%;
-    bottom: 10%;
-    border: 1.5px solid rgba(57, 255, 20, 0.7);
-    border-radius: 50% 50% 40% 40%;
-    animation: faceBoxPulse 2s ease-in-out infinite;
-    box-shadow: 0 0 12px rgba(57,255,20,0.3), inset 0 0 12px rgba(57,255,20,0.05);
-}
-@keyframes faceBoxPulse {
-    0%, 100% { border-color: rgba(57,255,20,0.7); opacity: 0.8; }
-    50% { border-color: rgba(0,229,255,0.9); opacity: 1; }
-}
-
-/* Scan dots (data points) */
-.scan-dot {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #00e5ff;
-    box-shadow: 0 0 8px #00e5ff;
-    animation: dotBlink 1s ease-in-out infinite;
-}
-@keyframes dotBlink {
-    0%, 100% { opacity: 0; transform: scale(0.5); }
-    50% { opacity: 1; transform: scale(1); }
 }
 
 /* Scanning Info Panel */

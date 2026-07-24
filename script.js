@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mediaPreviewBox = document.getElementById('mediaPreviewBox');
     const mediaPlaceholder = document.getElementById('mediaPlaceholder');
     const cameraFeed = document.getElementById('cameraFeed');
+    const scanCanvas = document.getElementById('scanCanvas');
     const imagePreview = document.getElementById('imagePreview');
     const fileInput = document.getElementById('fileInput');
     const btnStartCamera = document.getElementById('btnStartCamera');
@@ -96,12 +97,227 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnStartAnalysis = document.getElementById('btnStartAnalysis');
     const btnScanAgain = document.getElementById('btnScanAgain');
 
+    /* ================================================================
+       MediaPipe Face Mesh — Sci-Fi Wireframe Overlay (468 landmarks)
+       100% client-side, real-time. Renders a neon 3D wireframe mesh
+       and glowing particles that track the face on an HTML5 <canvas>.
+       ================================================================ */
+    const FaceMeshFX = (function () {
+        const CYAN = '0,229,255';
+        const GREEN = '57,255,20';
+        let model = null;
+        let loadingPromise = null;
+        let sending = false;
+
+        // live (camera) state
+        let liveOn = false, liveVideo = null, liveCanvas = null, liveCtx = null, liveLms = null, liveRaf = null;
+        // still (captured/uploaded image) state
+        let stillOn = false, stillImg = null, stillCanvas = null, stillCtx = null, stillLms = null, stillRaf = null, stillT0 = 0;
+
+        function available() { return typeof FaceMesh !== 'undefined'; }
+
+        function loadModel() {
+            if (model) return Promise.resolve(model);
+            if (loadingPromise) return loadingPromise;
+            if (!available()) return Promise.reject(new Error('MediaPipe FaceMesh belum termuat'));
+            loadingPromise = new Promise((resolve, reject) => {
+                try {
+                    const fm = new FaceMesh({ locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}` });
+                    fm.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+                    model = fm;
+                    resolve(fm);
+                } catch (e) { reject(e); }
+            });
+            return loadingPromise;
+        }
+
+        function fitCanvas(canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const w = Math.max(1, Math.round((rect.width || canvas.clientWidth || 320) * dpr));
+            const h = Math.max(1, Math.round((rect.height || canvas.clientHeight || 320) * dpr));
+            canvas.width = w; canvas.height = h;
+        }
+
+        // maps normalized landmark coords through an object-fit:cover transform
+        function coverTf(iw, ih, W, H) {
+            const scale = Math.max(W / iw, H / ih);
+            return { scale, offX: (W - iw * scale) / 2, offY: (H - ih * scale) / 2, iw, ih };
+        }
+
+        function drawMesh(ctx, lms, W, H, tf, timeSec, sweepY) {
+            ctx.clearRect(0, 0, W, H);
+            if (!lms || !lms.length || !tf) return;
+            const mx = (p) => tf.offX + p.x * tf.iw * tf.scale;
+            const my = (p) => tf.offY + p.y * tf.ih * tf.scale;
+            const unit = W / 640;
+
+            ctx.save();
+            ctx.lineCap = 'round';
+
+            // 1) 3D wireframe mesh (tesselation / spider-web)
+            const TESS = (typeof FACEMESH_TESSELATION !== 'undefined') ? FACEMESH_TESSELATION : null;
+            if (TESS) {
+                ctx.lineWidth = Math.max(0.5, unit * 0.8);
+                ctx.strokeStyle = `rgba(${CYAN},0.30)`;
+                ctx.shadowColor = `rgba(${CYAN},0.85)`;
+                ctx.shadowBlur = 5;
+                ctx.beginPath();
+                for (let i = 0; i < TESS.length; i++) {
+                    const a = lms[TESS[i][0]], b = lms[TESS[i][1]];
+                    if (!a || !b) continue;
+                    ctx.moveTo(mx(a), my(a));
+                    ctx.lineTo(mx(b), my(b));
+                }
+                ctx.stroke();
+            }
+
+            // 2) Face contour glow (oval)
+            const OVAL = (typeof FACEMESH_FACE_OVAL !== 'undefined') ? FACEMESH_FACE_OVAL : null;
+            if (OVAL) {
+                ctx.lineWidth = Math.max(1, unit * 1.6);
+                ctx.strokeStyle = `rgba(${GREEN},0.55)`;
+                ctx.shadowColor = `rgba(${GREEN},0.9)`;
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                for (let i = 0; i < OVAL.length; i++) {
+                    const a = lms[OVAL[i][0]], b = lms[OVAL[i][1]];
+                    if (!a || !b) continue;
+                    ctx.moveTo(mx(a), my(a));
+                    ctx.lineTo(mx(b), my(b));
+                }
+                ctx.stroke();
+            }
+
+            // 3) Glowing neon landmark particles
+            for (let i = 0; i < lms.length; i++) {
+                const p = lms[i];
+                const px = mx(p), py = my(p);
+                let near = 0;
+                if (sweepY != null) near = Math.max(0, 1 - Math.abs(py - sweepY) / (H * 0.10));
+                const pulse = 0.5 + 0.5 * Math.sin(timeSec * 3 + i * 0.4);
+                const lit = near > 0.2;
+                const col = lit ? GREEN : CYAN;
+                const r = (0.5 + 0.7 * pulse + near * 1.8) * unit;
+                ctx.fillStyle = `rgba(${col},${Math.min(1, 0.25 + 0.45 * pulse + near * 0.6)})`;
+                ctx.shadowColor = `rgba(${col},0.95)`;
+                ctx.shadowBlur = lit ? 12 : 6;
+                ctx.beginPath();
+                ctx.arc(px, py, r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 4) Scan sweep band (still-image mode only)
+            if (sweepY != null) {
+                const grad = ctx.createLinearGradient(0, sweepY - H * 0.05, 0, sweepY + H * 0.05);
+                grad.addColorStop(0, `rgba(${GREEN},0)`);
+                grad.addColorStop(0.5, `rgba(${GREEN},0.28)`);
+                grad.addColorStop(1, `rgba(${GREEN},0)`);
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, sweepY - H * 0.05, W, H * 0.1);
+            }
+
+            ctx.restore();
+        }
+
+        /* ---------- LIVE (camera) ---------- */
+        async function startLive(video, canvas) {
+            if (!available()) return;
+            liveVideo = video; liveCanvas = canvas;
+            liveCtx = canvas.getContext('2d');
+            liveLms = null; liveOn = true;
+            fitCanvas(canvas);
+            try {
+                const fm = await loadModel();
+                fm.onResults((res) => {
+                    liveLms = (res.multiFaceLandmarks && res.multiFaceLandmarks[0]) || null;
+                });
+                pump();
+            } catch (e) { console.warn('FaceMesh live init failed:', e.message); }
+            renderLive();
+        }
+        async function pump() {
+            if (!liveOn) return;
+            if (model && liveVideo && liveVideo.readyState >= 2 && !sending) {
+                sending = true;
+                try { await model.send({ image: liveVideo }); } catch (e) { /* ignore frame */ }
+                sending = false;
+            }
+            if (liveOn) requestAnimationFrame(pump);
+        }
+        function renderLive() {
+            if (!liveOn) return;
+            const W = liveCanvas.width, H = liveCanvas.height;
+            const iw = liveVideo.videoWidth, ih = liveVideo.videoHeight;
+            const tf = (iw && ih) ? coverTf(iw, ih, W, H) : null;
+            drawMesh(liveCtx, liveLms, W, H, tf, performance.now() / 1000, null);
+            liveRaf = requestAnimationFrame(renderLive);
+        }
+        function stopLive() {
+            liveOn = false;
+            if (liveRaf) cancelAnimationFrame(liveRaf);
+            if (liveCtx && liveCanvas) liveCtx.clearRect(0, 0, liveCanvas.width, liveCanvas.height);
+            liveLms = null;
+        }
+
+        /* ---------- STILL (captured/uploaded image) ---------- */
+        function imgReady(img) {
+            return new Promise((resolve) => {
+                if (img.complete && img.naturalWidth > 0) return resolve();
+                img.onload = () => resolve();
+                img.onerror = () => resolve();
+            });
+        }
+        async function startStill(img, canvas) {
+            if (!available()) return;
+            stillImg = img; stillCanvas = canvas;
+            stillCtx = canvas.getContext('2d');
+            stillLms = null; stillOn = true; stillT0 = performance.now();
+            fitCanvas(canvas);
+            renderStill();
+            try {
+                const fm = await loadModel();
+                fm.onResults((res) => {
+                    stillLms = (res.multiFaceLandmarks && res.multiFaceLandmarks[0]) || null;
+                });
+                await imgReady(img);
+                if (stillOn) { try { await fm.send({ image: img }); } catch (e) { /* ignore */ } }
+            } catch (e) { console.warn('FaceMesh still init failed:', e.message); }
+        }
+        function renderStill() {
+            if (!stillOn) return;
+            const W = stillCanvas.width, H = stillCanvas.height;
+            const iw = stillImg.naturalWidth, ih = stillImg.naturalHeight;
+            const tf = (iw && ih) ? coverTf(iw, ih, W, H) : null;
+            const t = (performance.now() - stillT0) / 1000;
+            const sweepY = ((t * 0.45) % 1) * H;
+            drawMesh(stillCtx, stillLms, W, H, tf, t, sweepY);
+            stillRaf = requestAnimationFrame(renderStill);
+        }
+        function stopStill() {
+            stillOn = false;
+            if (stillRaf) cancelAnimationFrame(stillRaf);
+            if (stillCtx && stillCanvas) stillCtx.clearRect(0, 0, stillCanvas.width, stillCanvas.height);
+            stillLms = null;
+        }
+
+        // Warm up the model in the background so first use is instant
+        function preload() { if (available()) loadModel().catch(() => {}); }
+
+        return { startLive, stopLive, startStill, stopStill, preload };
+    })();
+
+    // Preload MediaPipe assets on page load (non-blocking)
+    FaceMeshFX.preload();
+
     /* ---- Camera ---- */
     btnStartCamera && btnStartCamera.addEventListener('click', async () => {
         try {
             cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 640 }, audio: false });
             cameraFeed.srcObject = cameraStream;
             cameraFeed.classList.remove('hidden');
+            scanCanvas && scanCanvas.classList.remove('hidden');
             mediaPlaceholder.classList.add('hidden');
             imagePreview.classList.add('hidden');
             btnStartCamera.classList.add('hidden');
@@ -109,6 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnCapture.classList.remove('hidden');
             btnStopCamera.classList.remove('hidden');
             capturedImageBase64 = null;
+            // Start real-time MediaPipe Face Mesh sci-fi overlay
+            if (scanCanvas) FaceMeshFX.startLive(cameraFeed, scanCanvas);
         } catch (err) {
             showToast('Tidak dapat mengakses kamera. Silakan upload foto manual.', 'error');
         }
@@ -126,6 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
         imagePreview.src = 'data:image/jpeg;base64,' + capturedImageBase64;
         imagePreview.classList.remove('hidden');
         cameraFeed.classList.add('hidden');
+        FaceMeshFX.stopLive();
+        scanCanvas && scanCanvas.classList.add('hidden');
 
         stopCamera();
         btnCapture.classList.add('hidden');
@@ -136,6 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnStopCamera && btnStopCamera.addEventListener('click', () => {
         stopCamera();
+        FaceMeshFX.stopLive();
+        scanCanvas && scanCanvas.classList.add('hidden');
         cameraFeed.classList.add('hidden');
         mediaPlaceholder.classList.remove('hidden');
         btnCapture.classList.add('hidden');
@@ -187,8 +409,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const scanImg = document.getElementById('scanningImage');
         scanImg.src = 'data:' + capturedMimeType + ';base64,' + capturedImageBase64;
 
-        // Spawn scan dots
-        spawnScanDots();
+        // Start MediaPipe Face Mesh wireframe scan on the captured photo
+        const scanMeshCanvas = document.getElementById('scanMeshCanvas');
+        if (scanMeshCanvas) FaceMeshFX.startStill(scanImg, scanMeshCanvas);
 
         // Simulate progress with status messages
         const statusMessages = [
@@ -253,11 +476,13 @@ document.addEventListener('DOMContentLoaded', () => {
             params.forEach(p => { const el = document.getElementById(p); if (el) { el.classList.add('done'); el.classList.remove('active'); } });
 
             await sleep(600);
+            FaceMeshFX.stopStill();
             // Transition to mandatory lead form before showing report
             switchState('stateForm');
 
         } catch (err) {
             clearInterval(statusInterval);
+            FaceMeshFX.stopStill();
             console.error('Skin analysis error:', err);
             switchState('stateInput');
             showToast('Analisis AI gagal: ' + err.message, 'error');
@@ -319,25 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = '<i class="fa-solid fa-square-check"></i> Buka Laporan Diagnostik Kulit Saya';
         }
     });
-
-    function spawnScanDots() {
-        const container = document.getElementById('scanDots');
-        if (!container) return;
-        container.innerHTML = '';
-        const positions = [
-            {top:'25%',left:'30%'},{top:'20%',left:'60%'},{top:'35%',left:'75%'},
-            {top:'50%',left:'20%'},{top:'55%',left:'70%'},{top:'65%',left:'40%'},
-            {top:'40%',left:'45%'},{top:'30%',left:'50%'},{top:'60%',left:'30%'}
-        ];
-        positions.forEach((pos, i) => {
-            const dot = document.createElement('div');
-            dot.className = 'scan-dot';
-            dot.style.top = pos.top;
-            dot.style.left = pos.left;
-            dot.style.animationDelay = (i * 0.2) + 's';
-            container.appendChild(dot);
-        });
-    }
 
     /* ================================================================
        SECTION 3: DISPLAY RESULTS
@@ -579,6 +785,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Scan again */
     btnScanAgain && btnScanAgain.addEventListener('click', () => {
+        FaceMeshFX.stopStill();
+        FaceMeshFX.stopLive();
+        scanCanvas && scanCanvas.classList.add('hidden');
         capturedImageBase64 = null;
         analysisResult = null;
         imagePreview.classList.add('hidden');

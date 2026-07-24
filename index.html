@@ -253,19 +253,8 @@
                             <!-- Image being scanned -->
                             <div class="scan-image-container">
                                 <img id="scanningImage" alt="Sedang menganalisis..." class="scan-subject-img">
-                                <!-- Overlay animation layers -->
-                                <div class="scan-overlay">
-                                    <div class="scan-grid"></div>
-                                    <div class="scan-line" id="scanLine"></div>
-                                    <div class="scan-corners">
-                                        <span class="corner tl"></span>
-                                        <span class="corner tr"></span>
-                                        <span class="corner bl"></span>
-                                        <span class="corner br"></span>
-                                    </div>
-                                    <div class="scan-face-box" id="scanFaceBox"></div>
-                                    <div class="scan-dots" id="scanDots"></div>
-                                </div>
+                                <!-- MediaPipe Face Mesh wireframe overlay -->
+                                <canvas id="scanMeshCanvas" class="scan-mesh-canvas"></canvas>
                             </div>
                         </div>
                         <div class="scanning-info">
@@ -603,6 +592,8 @@
         </div>
     </div>
 
+    <!-- MediaPipe Face Mesh — 468 facial landmarks, 100% client-side -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 </html>
