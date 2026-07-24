@@ -699,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         grid.innerHTML = recs.map(rec => {
             const prod = rec.product || {};
-            const imgUrl = prod.imageUrl || 'images/product_showcase.png';
+            const imgUrl = prod.imageUrl || prod.img || 'images/product_showcase.png';
             const price = prod.currentPrice ? `Rp ${formatPrice(prod.currentPrice)}` : '';
             return `
                 <div class="reco-product-card">

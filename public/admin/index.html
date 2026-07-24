@@ -208,7 +208,7 @@
             <div class="tab-panel" id="tab-add-product">
                 <div class="panel-card" style="max-width:640px;">
                     <div class="panel-header">
-                        <h3><i class="fa-solid fa-plus-circle" style="color:#39ff14;margin-right:8px;"></i>Tambah Produk Baru ke Firestore</h3>
+                        <h3 id="productFormTitle"><i class="fa-solid fa-plus-circle" style="color:#39ff14;margin-right:8px;"></i>Tambah Produk Baru ke Firestore</h3>
                     </div>
                     <form id="addProductForm">
                         <div class="form-row-2">
@@ -249,16 +249,25 @@
                             </div>
                             <div class="form-group">
                                 <label>URL Gambar</label>
-                                <input type="url" id="pImageUrl" class="form-input" placeholder="https://...">
+                                <input type="url" id="pImageUrl" class="form-input" placeholder="https://... (tempel link gambar)">
+                                <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
+                                    <img id="pImagePreview" alt="Preview" style="display:none;width:56px;height:56px;object-fit:contain;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);">
+                                    <span id="pImageHint" style="font-size:0.72rem;color:var(--text-muted);">Tempel link gambar untuk melihat preview</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Concern (keywords dipisah koma)</label>
                             <input type="text" id="pConcern" class="form-input" placeholder="jerawat,minyak berlebih,komedo">
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-plus"></i> Tambah Produk ke Firestore
-                        </button>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                            <button type="submit" id="btnSubmitProduct" class="btn btn-primary">
+                                <i class="fa-solid fa-plus"></i> Tambah Produk ke Firestore
+                            </button>
+                            <button type="button" id="btnCancelEdit" class="btn" style="display:none;background:rgba(255,255,255,0.08);color:var(--text-main);border:1px solid rgba(255,255,255,0.15);">
+                                <i class="fa-solid fa-xmark"></i> Batal Edit
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

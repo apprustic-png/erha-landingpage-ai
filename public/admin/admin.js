@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminLoginForm = document.getElementById('adminLoginForm');
     const authAlert   = document.getElementById('authAlert');
 
+    let productsCache = [];   // last loaded product list (for edit lookup)
+    let editingSku = null;    // SKU currently being edited, or null when adding
+
     const token = localStorage.getItem('erha_admin_token');
     if (token) showDashboard(); else showLogin();
 
@@ -285,6 +288,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.getElementById('productsTableBody');
         if (!tbody) return;
 
+        productsCache = data || [];
+
         if (!data || data.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-muted)">Tidak ada produk</td></tr>';
             return;
@@ -306,12 +311,74 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
             <td style="font-size:0.75rem;color:var(--text-muted);">${escHtml((prod.concern||'').substring(0,60))}${(prod.concern||'').length>60?'...':''}</td>
             <td>
-                <button class="action-btn btn-delete" onclick="deleteProduct('${escHtml(prod.sku)}')">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    <button class="action-btn btn-edit" onclick="editProduct('${escHtml(prod.sku)}')" title="Edit produk / ganti gambar">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="action-btn btn-delete" onclick="deleteProduct('${escHtml(prod.sku)}')" title="Hapus produk">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
             </td>
         </tr>`).join('');
     }
+
+    /* ---- Live image preview from the URL field ---- */
+    function updateImagePreview() {
+        const url = (document.getElementById('pImageUrl').value || '').trim();
+        const img = document.getElementById('pImagePreview');
+        const hint = document.getElementById('pImageHint');
+        if (!img) return;
+        if (url) {
+            img.onload = () => { img.style.display = 'block'; if (hint) { hint.textContent = '✓ Preview gambar'; hint.style.color = '#39ff14'; } };
+            img.onerror = () => { img.style.display = 'none'; if (hint) { hint.textContent = '⚠ Gambar tidak bisa dimuat dari link ini'; hint.style.color = '#ffc107'; } };
+            img.src = url;
+        } else {
+            img.style.display = 'none';
+            img.removeAttribute('src');
+            if (hint) { hint.textContent = 'Tempel link gambar untuk melihat preview'; hint.style.color = 'var(--text-muted)'; }
+        }
+    }
+    document.getElementById('pImageUrl')?.addEventListener('input', updateImagePreview);
+
+    /* ---- Load a product into the form for editing ---- */
+    window.editProduct = (sku) => {
+        const prod = productsCache.find(p => p.sku === sku);
+        if (!prod) return showToast('Produk tidak ditemukan', 'error');
+        editingSku = sku;
+
+        document.getElementById('pSku').value = prod.sku || '';
+        document.getElementById('pSku').readOnly = true;
+        document.getElementById('pBrand').value = prod.brand || '';
+        document.getElementById('pTitle').value = prod.title || '';
+        document.getElementById('pCategory').value = prod.category || 'acneact';
+        document.getElementById('pOldPrice').value = prod.oldPrice || '';
+        document.getElementById('pPrice').value = prod.currentPrice || '';
+        document.getElementById('pImageUrl').value = prod.imageUrl || '';
+        document.getElementById('pConcern').value = prod.concern || '';
+        updateImagePreview();
+
+        document.getElementById('productFormTitle').innerHTML =
+            '<i class="fa-solid fa-pen" style="color:#00e5ff;margin-right:8px;"></i>Edit Produk: ' + escHtml(sku);
+        document.getElementById('btnSubmitProduct').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
+        document.getElementById('btnCancelEdit').style.display = 'inline-flex';
+
+        switchTab('tab-add-product');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    /* ---- Reset the product form back to "add" mode ---- */
+    function resetProductForm() {
+        editingSku = null;
+        document.getElementById('addProductForm').reset();
+        document.getElementById('pSku').readOnly = false;
+        document.getElementById('productFormTitle').innerHTML =
+            '<i class="fa-solid fa-plus-circle" style="color:#39ff14;margin-right:8px;"></i>Tambah Produk Baru ke Firestore';
+        document.getElementById('btnSubmitProduct').innerHTML = '<i class="fa-solid fa-plus"></i> Tambah Produk ke Firestore';
+        document.getElementById('btnCancelEdit').style.display = 'none';
+        updateImagePreview();
+    }
+    document.getElementById('btnCancelEdit')?.addEventListener('click', resetProductForm);
 
     window.deleteProduct = async (sku) => {
         if (!confirm(`Hapus produk ${sku}?`)) return;
@@ -338,17 +405,23 @@ document.addEventListener('DOMContentLoaded', () => {
             concern: document.getElementById('pConcern').value.trim(),
         };
         if (!data.sku || !data.title) return showToast('SKU dan Judul wajib!', 'warning');
+        const editing = !!editingSku;
         try {
-            const res = await fetch('/api/products', {
-                method:'POST', headers:{'Content-Type':'application/json'},
-                body: JSON.stringify(data)
-            });
+            const res = await fetch(
+                editing ? '/api/products/' + encodeURIComponent(editingSku) : '/api/products',
+                {
+                    method: editing ? 'PUT' : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }
+            );
             const result = await res.json();
             if (result.success) {
-                showToast('Produk berhasil ditambahkan!', 'success');
-                e.target.reset();
+                showToast(editing ? 'Produk berhasil diperbarui!' : 'Produk berhasil ditambahkan!', 'success');
+                resetProductForm();
                 loadDashboardData();
-            } else showToast('Gagal: '+result.message, 'error');
+                if (editing) switchTab('tab-products');
+            } else showToast('Gagal: '+(result.message||'terjadi kesalahan'), 'error');
         } catch (err) { showToast('Error: '+err.message, 'error'); }
     });
 

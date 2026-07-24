@@ -43,22 +43,23 @@ const VERTEX_PROJECT = 'tutorialappbuilder';
 const GEMINI_MODEL = 'gemini-3.5-flash';
 
 /* --- ERHA Product Catalog Knowledge Base (Embedded for Gemini) --- */
+const ERHA_IMG = 'https://www.erhastore.co.id/media/catalog/product';
 const ERHA_PRODUCT_CATALOG = [
-  { sku:"F122517", brand:"ERHA AGE CORRECTOR", title:"Serum Peptides & Phytoplacenta 20ml", category:"agecorrector", concern:"anti-aging,kerutan,garis halus,kulit kendur", currentPrice:205500 },
-  { sku:"F122610", brand:"ERHA AGE CORRECTOR", title:"Peptides & Hyaluronate Day Cream 30g", category:"agecorrector", concern:"anti-aging,kerutan,dehidrasi kulit", currentPrice:186500 },
-  { sku:"F123017", brand:"ERHA AGE CORRECTOR", title:"1% Pure Retinol Night Charge Booster 15ml", category:"agecorrector", concern:"anti-aging,pembaharuan sel kulit,penuaan", currentPrice:211500 },
-  { sku:"F122021", brand:"ERHA TRUWHITE", title:"3% TXA & Hexyl Resorcinol Active Glow Booster 15ml", category:"truwhite", concern:"flek hitam,hiperpigmentasi,kulit kusam,warna tidak merata", currentPrice:211500 },
-  { sku:"F122856", brand:"ERHA TRUWHITE", title:"Brightening Day Cream Niacinamide & Arbutin 30g", category:"truwhite", concern:"flek hitam,kulit kusam,brightening,warna tidak rata", currentPrice:178500 },
-  { sku:"F122183", brand:"ERHA TRUWHITE", title:"Niacinamide & Peptide Dark Spot Corrector 15g", category:"truwhite", concern:"noda bekas jerawat,flek hitam,hiperpigmentasi", currentPrice:139000 },
-  { sku:"F122281", brand:"ERHA ACNEACT", title:"BHA & Sulfur Acne Spot Gel 10g", category:"acneact", concern:"jerawat meradang,jerawat aktif,komedo", currentPrice:62500 },
-  { sku:"F123053", brand:"ERHA ACNEACT", title:"BHA & Niacinamide Acne Body Spray 100ml", category:"acneact", concern:"jerawat badan,punggung berjerawat,minyak berlebih", currentPrice:92000 },
-  { sku:"F122284", brand:"ERHA ACNEACT", title:"Pore Minimizer & Oil Control Gel Cream 30g", category:"acneact", concern:"pori besar,minyak berlebih,kulit berminyak", currentPrice:112500 },
-  { sku:"F122213", brand:"ERHA SKINSITIVE", title:"Ultracalm Face Serum Sensitive Skin 30g", category:"skinsitive", concern:"kulit sensitif,kemerahan,iritasi,barrier rusak", currentPrice:195500 },
-  { sku:"F122293", brand:"ERHA SKINSITIVE", title:"Ultracalm Skin Barrier Moisturizer 80ml", category:"skinsitive", concern:"barrier rusak,kulit sensitif,kemerahan,dehidrasi", currentPrice:156000 },
-  { sku:"F123106", brand:"ERHAIR", title:"Hairgrow Tonic Hairfall Control 90ml", category:"erhair", concern:"rambut rontok,kebotakan,rambut tipis", currentPrice:146000 },
-  { sku:"FCGN2",   brand:"ERHAIR", title:"Hairgrow Shampoo Hairfall Protection 250ml", category:"erhair", concern:"rambut rontok,kulit kepala sensitif,ketombe", currentPrice:118000 },
-  { sku:"F122268", brand:"HISERHA", title:"Double Deep Cleansing Facial Wash Pria 100g", category:"hiserha", concern:"kulit pria berminyak,pori tersumbat,polusi", currentPrice:78000 },
-  { sku:"F122915", brand:"HISERHA", title:"Gentle Acne Facial Wash for Men 100g", category:"hiserha", concern:"jerawat pria,komedo pria,kulit berminyak", currentPrice:76500 }
+  { sku:"F122517", brand:"ERHA AGE CORRECTOR", title:"Serum Peptides & Phytoplacenta 20ml", category:"agecorrector", concern:"anti-aging,kerutan,garis halus,kulit kendur", currentPrice:205500, img:`${ERHA_IMG}/a/g/agecorr_serum.webp` },
+  { sku:"F122610", brand:"ERHA AGE CORRECTOR", title:"Peptides & Hyaluronate Day Cream 30g", category:"agecorrector", concern:"anti-aging,kerutan,dehidrasi kulit", currentPrice:186500, img:`${ERHA_IMG}/a/g/agecorr_day_moist.webp` },
+  { sku:"F123017", brand:"ERHA AGE CORRECTOR", title:"1% Pure Retinol Night Charge Booster 15ml", category:"agecorrector", concern:"anti-aging,pembaharuan sel kulit,penuaan", currentPrice:211500, img:`${ERHA_IMG}/a/g/agecorr_night_charge.webp` },
+  { sku:"F122021", brand:"ERHA TRUWHITE", title:"3% TXA & Hexyl Resorcinol Active Glow Booster 15ml", category:"truwhite", concern:"flek hitam,hiperpigmentasi,kulit kusam,warna tidak merata", currentPrice:211500, img:`${ERHA_IMG}/t/r/truwhite_active_glow.png` },
+  { sku:"F122856", brand:"ERHA TRUWHITE", title:"Brightening Day Cream Niacinamide & Arbutin 30g", category:"truwhite", concern:"flek hitam,kulit kusam,brightening,warna tidak rata", currentPrice:178500, img:`${ERHA_IMG}/t/r/truwhite_day_cream.webp` },
+  { sku:"F122183", brand:"ERHA TRUWHITE", title:"Niacinamide & Peptide Dark Spot Corrector 15g", category:"truwhite", concern:"noda bekas jerawat,flek hitam,hiperpigmentasi", currentPrice:139000, img:`${ERHA_IMG}/t/r/truwhite_dark_spot_corr.webp` },
+  { sku:"F122281", brand:"ERHA ACNEACT", title:"BHA & Sulfur Acne Spot Gel 10g", category:"acneact", concern:"jerawat meradang,jerawat aktif,komedo", currentPrice:62500, img:`${ERHA_IMG}/e/r/erha_acne_spot_gel_10g.png` },
+  { sku:"F123053", brand:"ERHA ACNEACT", title:"BHA & Niacinamide Acne Body Spray 100ml", category:"acneact", concern:"jerawat badan,punggung berjerawat,minyak berlebih", currentPrice:92000, img:`${ERHA_IMG}/a/c/acneact_body_spray.webp` },
+  { sku:"F122284", brand:"ERHA ACNEACT", title:"Pore Minimizer & Oil Control Gel Cream 30g", category:"acneact", concern:"pori besar,minyak berlebih,kulit berminyak", currentPrice:112500, img:`${ERHA_IMG}/a/c/acneact_gel_cream.png` },
+  { sku:"F122213", brand:"ERHA SKINSITIVE", title:"Ultracalm Face Serum Sensitive Skin 30g", category:"skinsitive", concern:"kulit sensitif,kemerahan,iritasi,barrier rusak", currentPrice:195500, img:`${ERHA_IMG}/a/r/artboard_5.png` },
+  { sku:"F122293", brand:"ERHA SKINSITIVE", title:"Ultracalm Skin Barrier Moisturizer 80ml", category:"skinsitive", concern:"barrier rusak,kulit sensitif,kemerahan,dehidrasi", currentPrice:156000, img:`${ERHA_IMG}/s/b/sbm.png` },
+  { sku:"F123106", brand:"ERHAIR", title:"Hairgrow Tonic Hairfall Control 90ml", category:"erhair", concern:"rambut rontok,kebotakan,rambut tipis", currentPrice:146000, img:`${ERHA_IMG}/e/r/erhair_hairgrow_tonic_with_kopexil_90_ml.webp` },
+  { sku:"FCGN2",   brand:"ERHAIR", title:"Hairgrow Shampoo Hairfall Protection 250ml", category:"erhair", concern:"rambut rontok,kulit kepala sensitif,ketombe", currentPrice:118000, img:`${ERHA_IMG}/e/r/erhair_hair_fall_protection_shampoo_250.webp` },
+  { sku:"F122268", brand:"HISERHA", title:"Double Deep Cleansing Facial Wash Pria 100g", category:"hiserha", concern:"kulit pria berminyak,pori tersumbat,polusi", currentPrice:78000, img:`${ERHA_IMG}/h/i/hiserha_double_deep_cleansing_facial_wash_100gr.jpg` },
+  { sku:"F122915", brand:"HISERHA", title:"Gentle Acne Facial Wash for Men 100g", category:"hiserha", concern:"jerawat pria,komedo pria,kulit berminyak", currentPrice:76500, img:`${ERHA_IMG}/h/i/hiserha_gentle_acne_fw.webp` }
 ];
 
 const CATALOG_TEXT = ERHA_PRODUCT_CATALOG.map(p =>
@@ -112,7 +113,7 @@ const initialProducts = ERHA_PRODUCT_CATALOG.map(p => ({
     erhair: 'Hair Care', hiserha: 'Men Grooming'
   }[p.category] || p.category,
   desc: '',
-  imageUrl: `https://www.erhastore.co.id/media/catalog/product/${p.sku.charAt(0).toLowerCase()}/${p.sku.charAt(1).toLowerCase()}/${p.sku.toLowerCase()}.jpg`
+  imageUrl: p.img
 }));
 
 async function seedProductsIfEmpty() {
@@ -203,7 +204,7 @@ app.post('/api/skin-analyze', async (req, res) => {
     if (analysisData.rekomendasiProduk) {
       analysisData.rekomendasiProduk = analysisData.rekomendasiProduk.map(rec => {
         const product = ERHA_PRODUCT_CATALOG.find(p => p.sku === rec.sku);
-        return { ...rec, product: product || null };
+        return { ...rec, product: product ? { ...product, imageUrl: product.img } : null };
       }).filter(r => r.product !== null);
     }
 
@@ -274,12 +275,19 @@ app.put('/api/analyses/:id', async (req, res) => {
    ========================================================================== */
 app.get('/api/products', async (req, res) => {
   try {
-    const snapshot = await db.collection('products').get();
-    const products = [];
-    snapshot.forEach(doc => products.push({ id: doc.id, ...doc.data() }));
-    res.json({ success: true, data: products });
+    if (db) {
+      const snapshot = await db.collection('products').get();
+      if (!snapshot.empty) {
+        const products = [];
+        snapshot.forEach(doc => products.push({ id: doc.id, ...doc.data() }));
+        return res.json({ success: true, data: products });
+      }
+    }
+    // Fallback: serve the built-in catalog (with real ERHA store images)
+    // so products still display when Firestore is unavailable or empty.
+    return res.json({ success: true, data: initialProducts, fallback: true });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    return res.json({ success: true, data: initialProducts, fallback: true, note: err.message });
   }
 });
 

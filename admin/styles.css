@@ -501,6 +501,8 @@ body {
 .btn-wa:hover { background-color: #1EBE5D; }
 .btn-view { background-color: #E0F2FE; color: #0284C7; }
 .btn-view:hover { background-color: #BAE6FD; }
+.btn-edit { background-color: #DBEAFE; color: #2563EB; }
+.btn-edit:hover { background-color: #BFDBFE; }
 .btn-delete { background-color: #FEE2E2; color: #DC2626; }
 .btn-delete:hover { background-color: #FCA5A5; }
 
